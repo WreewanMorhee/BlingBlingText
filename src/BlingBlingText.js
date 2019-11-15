@@ -19,14 +19,13 @@ const logicBox1 = withHandlers(() => ({
       .split("")
       .map(
         word =>
-          `<span style="transition: .2s linear; display: inline-block">${word}</span>`
+          `<span style="display: inline-block">${word}</span>`
       )
       .join("")
 
     if (loop_mode) {
       set_infinite_energy()
     } else {
-      console.warn(element, event_type, 'asdfasd')
       element.addEventListener(event_type, turn_on_current)
     }
   }
@@ -43,35 +42,69 @@ const logicBox3 = withHandlers(() => ({
     if (!can_turn_on) return
 
     set_can_turn_on(false)
+
+    const css_data = set_style(true)
     Array.from(element.children).forEach((element, index) => {
-      setTimeout(() => {
-        set_style(element, true)
-      }, index * energy)
+      // TweenLite.to(element, 0.2, {
+      //   ease: Bounce.easeInOut,
+      //   css: {
+      //     transform: "translateX(50px) rotate(30deg)",
+      //     color: 'red'
+      //   },
+      //   // css_data,
+      //   delay: index * energy / 10000,
+      // })
+      TweenLite.to(element, 0.2, {
+        css: {
+          x: "translateX(50px)",
+          color: 'red'
+        },
+        delay: index * energy / 10000,
+      })
     })
 
     setTimeout(() => {
+      const css_data = set_style(false)
       Array.from(element.children).forEach((element, index, array) => {
-        setTimeout(() => {
-          set_style(element, false)
+      console.warn(css_data, 'css_data')
+        // TweenLite.to(element, 0.2, {
+        //   ease: Bounce.easeInOut,
+        //   css: {
+        //     transform: "translateX(50px) rotate(30deg)",
+        //     color: ''
+        //   },
+        //   // css_data,
+        //   delay: index * energy / 10000,
+        // })
+        TweenLite.to(element, 0.2, {
+          css: {
+            x: "",
+            color: ''
+          },
+          delay: index * energy / 10000,
+        })
 
-          if (array.length === index + 1) {
-            set_can_turn_on(true)
-          }
-        }, index * energy)
+        if (array.length === index + 1) {
+          set_can_turn_on(true)
+        }
       })
-    }, capacity)
+    }, 2000)
   }
 }))
 
 const logicBox4 = withHandlers(() => ({
-  set_style: ({current_config}) => (element, is_current) => {
+  set_style: ({current_config}) => (is_current) => {
+    let css_data = {}
+
     Object.keys(current_config).forEach((style_key) => {
       if (is_current) {
-        element.style[style_key] = current_config[style_key]
+        css_data[style_key] = current_config[style_key]
       } else {
-        element.style[style_key] = ''
+        css_data[style_key] = ''
       }
     })
+
+    return css_data
   }
 }))
 
@@ -79,8 +112,8 @@ const logicBox4 = withHandlers(() => ({
 const stateBox1 = withState('can_turn_on', 'set_can_turn_on', true)
 
 import React, { useEffect } from 'react'
+import { TimelineMax, TweenLite, Power0, Bounce } from 'gsap'
 import { compose, withHandlers, withState, mapProps } from 'recompose'
-// import { Power0, TimelineMax } from 'gsap'
 
 export default compose(
   mapProps(
@@ -89,14 +122,14 @@ export default compose(
       event_type,
       energy,
       capacity,
-      loopInterval,
+      loop_interval,
       current_config
     }) => ({
       element,
       event_type: event_type === 'hover' ? 'mouseenter' : event_type,
-      energy: 100000 / energy,
+      energy,
       capacity,
-      loopInterval,
+      loop_interval,
       loop_mode: !event_type,
       current_config
     })
