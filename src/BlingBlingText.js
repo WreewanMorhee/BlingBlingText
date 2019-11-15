@@ -26,7 +26,6 @@ const logicBox1 = withHandlers(() => ({
     if (loop_mode) {
       set_infinite_energy()
     } else {
-      console.warn(element, event_type, 'asdfasd')
       element.addEventListener(event_type, turn_on_current)
     }
   }
@@ -64,10 +63,10 @@ const logicBox3 = withHandlers(() => ({
 }))
 
 const logicBox4 = withHandlers(() => ({
-  set_style: ({current_config}) => (element, is_current) => {
-    Object.keys(current_config).forEach((style_key) => {
+  set_style: ({blingbling_css}) => (element, is_current) => {
+    Object.keys(blingbling_css).forEach((style_key) => {
       if (is_current) {
-        element.style[style_key] = current_config[style_key]
+        element.style[style_key] = blingbling_css[style_key]
       } else {
         element.style[style_key] = ''
       }
@@ -80,7 +79,6 @@ const stateBox1 = withState('can_turn_on', 'set_can_turn_on', true)
 
 import React, { useEffect } from 'react'
 import { compose, withHandlers, withState, mapProps } from 'recompose'
-// import { Power0, TimelineMax } from 'gsap'
 
 export default compose(
   mapProps(
@@ -90,7 +88,7 @@ export default compose(
       energy,
       capacity,
       loopInterval,
-      current_config
+      blingbling_css
     }) => ({
       element,
       event_type: event_type === 'hover' ? 'mouseenter' : event_type,
@@ -98,7 +96,7 @@ export default compose(
       capacity,
       loopInterval,
       loop_mode: !event_type,
-      current_config
+      blingbling_css
     })
   ),
   stateBox1,

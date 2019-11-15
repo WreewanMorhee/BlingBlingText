@@ -1,4 +1,4 @@
-var BlingBlingText = require('./src/index.js')
+var BlingBlingText = require('./src/App.js')
 module.exports = {
   init: BlingBlingText.init
 };
