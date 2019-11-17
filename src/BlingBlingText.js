@@ -96,11 +96,11 @@ export default compose(
   mapProps(
     ({
       element,
-      event_type,
-      move_speed,
-      vanish_speed,
-      loopInterval,
-      blingbling_css
+      event_type = '',
+      move_speed = 2000,
+      vanish_speed = 200,
+      loopInterval = 3000,
+      blingbling_css = {}
     }) => ({
       element,
       event_type: event_type === 'hover' ? 'mouseenter' : event_type,
