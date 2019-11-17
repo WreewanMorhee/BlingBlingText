@@ -1,6 +1,6 @@
 # Bling Bling Text
 Make your Web has fancy text animation
-[DEMO](https://event.hearst.com.tw/uiuxstoredemo/smoothscrollmove/)
+[DEMO]()
 
 
 ## How to install
