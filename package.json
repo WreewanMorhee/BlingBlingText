@@ -2,7 +2,7 @@
     "name": "react-beauty-marquee",
     "version": "1.1.1",
     "main": "./index.js",
-    "description": "useful and beautiful marquee for your react project",
+    "description": "Let your web has fancy text animation",
     "scripts": {
         "build": "webpack -p",
         "test": "webpack --mode=development",

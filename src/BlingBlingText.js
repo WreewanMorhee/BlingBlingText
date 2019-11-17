@@ -1,10 +1,11 @@
-const BlingBlingText = ({set_span_to_text}) => {
+const BlingBlingText = ({ set_span_to_text }) => {
   useEffect(() => {
     set_span_to_text()
   }, [])
 
   return null
 }
+
 
 
 const logicBox1 = withHandlers(() => ({
@@ -31,48 +32,59 @@ const logicBox1 = withHandlers(() => ({
   }
 }))
 
+
 const logicBox2 = withHandlers(() => ({
-  set_infinite_energy: ({turn_on_current, loop_interval}) => () => {
+  set_infinite_energy: ({ turn_on_current, loop_interval }) => () => {
     setInterval(turn_on_current, loop_interval)
   }
 }))
 
+
 const logicBox3 = withHandlers(() => ({
-  turn_on_current: ({can_turn_on, element, set_style, energy, capacity, set_can_turn_on}) => () => {
+  turn_on_current: ({
+    can_turn_on,
+    element,
+    set_css_style,
+    move_speed,
+    vanish_speed,
+    set_can_turn_on
+  }) => () => {
     if (!can_turn_on) return
 
     set_can_turn_on(false)
     Array.from(element.children).forEach((element, index) => {
       setTimeout(() => {
-        set_style(element, true)
-      }, index * energy)
+        set_css_style(element, true)
+      }, index * move_speed)
     })
 
     setTimeout(() => {
       Array.from(element.children).forEach((element, index, array) => {
         setTimeout(() => {
-          set_style(element, false)
+          set_css_style(element, false)
 
           if (array.length === index + 1) {
             set_can_turn_on(true)
           }
-        }, index * energy)
+        }, index * move_speed)
       })
-    }, capacity)
+    }, vanish_speed)
   }
 }))
 
+
 const logicBox4 = withHandlers(() => ({
-  set_style: ({blingbling_css}) => (element, is_current) => {
-    Object.keys(blingbling_css).forEach((style_key) => {
+  set_css_style: ({ blingbling_css }) => (element, is_current) => {
+    Object.keys(blingbling_css).forEach(style_key => {
       if (is_current) {
         element.style[style_key] = blingbling_css[style_key]
       } else {
-        element.style[style_key] = ''
+        element.style[style_key] = ""
       }
     })
   }
 }))
+
 
 
 const stateBox1 = withState('can_turn_on', 'set_can_turn_on', true)
@@ -85,15 +97,15 @@ export default compose(
     ({
       element,
       event_type,
-      energy,
-      capacity,
+      move_speed,
+      vanish_speed,
       loopInterval,
       blingbling_css
     }) => ({
       element,
       event_type: event_type === 'hover' ? 'mouseenter' : event_type,
-      energy: 100000 / energy,
-      capacity,
+      move_speed: 100000 / move_speed,
+      vanish_speed,
       loopInterval,
       loop_mode: !event_type,
       blingbling_css

@@ -4,11 +4,16 @@ const App = ({ data }) => (
       const comp_list = Array.from(document.querySelectorAll(class_name))
 
       return comp_list.map((ele, index) => (
-        <BlingBlingText key={`${class_name}-index-${index + 1}`} element={ele} {...props} />
+        <BlingBlingText
+          key={`${class_name}-index-${index + 1}`}
+          element={ele}
+          {...props}
+        />
       ))
     })}
   </>
 )
+
 
 
 import React from 'react'
